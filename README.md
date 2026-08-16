@@ -59,6 +59,30 @@ python run.py
 | GET | `/api/mx/notices?symbol=600519` | 妙想公告检索 |
 | POST | `/api/mx/call` body `{"tool":"mx_macro_data","query":"中国CPI"}` | 妙想 11 工具通用调用（A股/港美股/基金/债券/宏观/选股器…） |
 
+## 🌐 部署到公网（Render 免费版）
+
+代码推到 GitHub 后，Render 可自动构建部署并绑定自定义域名：
+
+1. **推送到 GitHub**（在本目录执行，替换为你的仓库地址）：
+   ```bash
+   git remote add origin https://github.com/<你的用户名>/<仓库名>.git
+   git push -u origin master
+   ```
+   （`.env`、`vendor/`、`.cache/` 已被 .gitignore 排除，KEY 不会泄露；补丁版 pandas_ta 在 `libs/` 随仓库提交）
+2. **Render 部署**：dashboard.render.com → New → Web Service → 连接该 GitHub 仓库
+   （仓库含 `render.yaml`，构建/启动命令已自动配置）
+3. **设置环境变量**（Render → Environment，切勿写进代码）：
+   | 变量 | 值 |
+   |---|---|
+   | `EM_API_KEY` | 妙想 KEY（消息面数据） |
+   | `LLM_API_KEY` | DeepSeek 等 OpenAI 兼容 KEY |
+   | `LLM_BASE_URL` / `LLM_MODEL` | 可选，默认 DeepSeek |
+4. **绑定域名**：Render → Settings → Custom Domains → 添加你的域名，按提示在域名 DNS 加 CNAME 记录指向 Render 分配的地址
+5. **验证**：访问 `https://<你的域名>/api/health`，应返回 `"ok": true` 且 `mx_ready`/`llm_ready` 为 true
+
+> 免费版说明：15 分钟无访问会休眠，冷启动约 30-60 秒；首次构建需安装 akshare/numba 等依赖，约 3-8 分钟。
+> 若国内访问慢，可在域名前套 Cloudflare（免费 CDN）。
+
 ## 🧪 测试
 
 ```bash
