@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: ai-stock-research
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python run.py
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: HOST
+        value: 0.0.0.0
+      # 敏感 KEY 不写在此文件（会进 git）—— 在 Render Dashboard -> Environment 手动添加：
+      #   EM_API_KEY   妙想（东方财富）KEY
+      #   LLM_API_KEY  DeepSeek 等 OpenAI 兼容 KEY
+      #   LLM_BASE_URL / LLM_MODEL  可选，默认 DeepSeek

@@ -1,0 +1,10 @@
+# 注意：pandas-ta 不在本清单 —— PyPI 现仅剩 py3.12+ 的 0.4.71b0 且含语法 bug，
+# 本仓库使用补丁版（libs/pandas_ta，随 git 提交，run.py 自动加载）。
+akshare>=1.14.0
+fastapi>=0.110.0
+uvicorn>=0.29.0
+httpx>=0.27.0
+python-dotenv>=1.0.0
+pandas>=2.0.0,<2.4
+numpy>=1.26,<2.3
+numba>=0.60
